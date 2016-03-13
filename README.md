@@ -48,3 +48,7 @@ http://www.ponoko.com/make-and-sell/show-material/605-metal-copper#main-image
 #### USB Logo
 Thanks to Freepik @ flaticon.com for designing a nice USB logo.
 http://www.flaticon.com/free-icon/usb-symbol_64172
+
+#### Fork me on github
+Thanks to jnothman@github for the "fork me on github" logo.
+https://gist.github.com/jnothman/0729018fc39b2c30f082
