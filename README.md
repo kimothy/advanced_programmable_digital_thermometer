@@ -17,3 +17,34 @@ The hardware chosen i a Arduino Uno, and a Neo Pixel shield from Adafruit.
 
 ## Design
 The design will be a *sandwich* design useing materials from Ponoko.
+
+### Front plate
+The front plate will cover the front of the Neo Pixel board. Due to the intensity of the Neo Pixels, it should diffuse the light, while keeping it readable. The choices is:
+
+- Acrylic, Opal 3mm
+- Acrylic, white (Matte 1-side) 3mm
+- Delrin, white
+ 
+#### Acrylic, opal 3mm
+Great look, but might be to thick and diffuse.
+
+#### Acrylic, whote (Matte 1-side) 3mm
+Could look nice. Matte on one side means the light will only be slight diffuse. Glossy finnish ouside will look great.
+
+#### Delrin, white
+Great diffuser and availible in different sizes, but is prone to scraches, and is not ideal for the front.
+
+### Box
+Veneer Core - Birch
+
+Bamboo, amber 3 ply 6,7mm
+http://www.ponoko.com/make-and-sell/show-material/226-bamboo-amber-3-ply
+
+### Mounting plate
+Copper 0,8 mm
+http://www.ponoko.com/make-and-sell/show-material/605-metal-copper#main-image
+
+### Artwork
+#### USB Logo
+Thanks to Freepik @ flaticon.com for designing a nice USB logo.
+http://www.flaticon.com/free-icon/usb-symbol_64172
