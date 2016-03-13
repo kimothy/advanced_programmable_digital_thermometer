@@ -1,4 +1,4 @@
-# thermometer
+# Advanced Programmable Digital Thermometer
 A thermometer based on Arduino Uno and Neo Pixels
 
 ## Motivations
