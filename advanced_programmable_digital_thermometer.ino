@@ -12,7 +12,9 @@ void setup() {
     if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
   #endif
   strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
+  strip.show();
+
+//  Serial.begin(9600);
   
 }
 
@@ -50,7 +52,7 @@ void setDigit(signed int temp){
   tempDigit[1] = abs(temp % 10);
   
   for (i = 0; i < 40; i++){
-    for (j = 0; i < 13; j++){
+    for (j = 0; j < 13; j++){
       if (i == digits[tempDigit[0]][j]){
         displayMatrixNext[i] = 1;
       } 
@@ -60,6 +62,10 @@ void setDigit(signed int temp){
     }
   }
 
+  for (i = 0; i < 40; i++){
+    Serial.print(displayMatrixNext[i]);
+  }
+  
   for (i = 0; i < 40; i++){
     if (displayMatrixNext[i] == 1){
             strip.setPixelColor(displayMatrixNext[i],0,120,20);
