@@ -8,68 +8,89 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, PIN, NEO_GRB + NEO_KHZ800);
 int backgroundColor[3] = {5,5,5};
 
 void setup() {
+  Serial.begin(9600);
   #if defined (__AVR_ATtiny85__)
     if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
   #endif
   strip.begin();
   strip.show();
-
-//  Serial.begin(9600);
   
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  setDigit(21);
-  delay(1000);
-  setDigit(21);
-  delay(1000);
-  setDigit(22);
-  delay(1000);
+  int i = 0;
+  for (i = -10; i <= 100; i++){
+    setDigit(i);
+    delay(1000);
+  }  
 }
 
 void setDigit(signed int temp){
- unsigned int i = 0;
- unsigned int j = 0;
- 
- const int digits[11][13] = {{0,1,2,10,18,26,34,33,32,24,16,8,-1},
-                             {0,1,9,17,25,32,33,34,-1,-1,-1,-1,-1},
-                             {0,1,2,10,18,17,16,24,32,33,34,-1,-1},
-                             {0,1,2,10,18,26,34,33,32,17,-1,-1,-1},
-                             {0,8,16,17,2,10,18,26,34,-1,-1,-1,-1},
-                             {2,1,0,8,16,17,18,26,34,33,32,-1,-1},
-                             {2,1,0,8,16,24,32,33,34,26,18,17,-1},
-                             {0,1,2,10,17,25,33,-1,-1,-1,-1,-1,-1},
-                             {0,1,2,10,18,17,16,24,32,33,34,26,8},
-                             {17,16,8,0,1,2,10,18,26,34,-1,-1,-1},
-                             {-1,16,17,18,-1,-1,-1,-1,-1,-1,-1,-1,-1}};
-  
-  unsigned int displayMatrixNext[40];
-  unsigned int tempDigit[2];
+  byte i; //loop counter
+  byte j; //loop counter
+  byte k; //loop counter
+  byte s; //switch case
 
+  byte displayMatrix[8][5];
+  const byte digits[11][5][3] = {{{1,1,1},{1,0,1},{1,0,1},{1,0,1},{1,1,1}},
+                                 {{1,1,0},{0,1,0},{0,1,0},{0,1,0},{1,1,1}},
+                                 {{1,1,1},{0,0,1},{1,1,1},{1,0,0},{1,1,1}},
+                                 {{1,1,1},{0,0,1},{0,1,1},{0,0,1},{1,1,1}},
+                                 {{1,0,1},{1,0,1},{1,1,1},{0,0,1},{0,0,1}},
+                                 {{1,1,1},{1,0,0},{1,1,1},{0,0,1},{1,1,1}},
+                                 {{1,1,1},{1,0,0},{1,1,1},{1,0,1},{1,1,1}},
+                                 {{1,1,1},{0,0,1},{0,1,0},{0,1,0},{0,1,0}},
+                                 {{1,1,1},{1,0,1},{1,1,1},{1,0,1},{1,1,1}},
+                                 {{1,1,1},{1,0,1},{1,1,1},{0,0,1},{0,0,1}},
+                                 {{0,0,0},{0,0,0},{1,1,1},{0,0,0},{0,0,0}}};
+                              
   temp = constrain(temp, -9, 99);
-  tempDigit[0] = abs(temp / 10 % 10);
-  tempDigit[1] = abs(temp % 10);
-  
-  for (i = 0; i < 40; i++){
-    for (j = 0; j < 13; j++){
-      if (i == digits[tempDigit[0]][j]){
-        displayMatrixNext[i] = 1;
-      } 
-      if (i == digits[tempDigit[1]][j]){
-        displayMatrixNext[i+5] = 1;
+
+  if (temp  < 0) {s = 1;}
+  if (temp == 0) {s = 2;}
+  if (temp  > 0) {s = 3;}
+
+  switch ( s ){
+    case 1:
+      Serial.println("case 1");
+      for(i = 0; i < 3; i++){
+        for(j = 0; j < 5; j++){
+          displayMatrix[i][j] = digits[11][i][j];
+          displayMatrix[i+5][j] = digits[abs(temp % 10)][i][j];
+        }
+      }
+      break;
+    case 2:
+      Serial.println("case 2");
+      for(i = 0; i < 5; i++){
+        for(j = 0; j < 3; j++){
+          displayMatrix[i+5][j] = digits[0][i][j];  
+        }
+      }
+      break;
+    case 3:
+      Serial.println("case 3");
+      for(i = 0; i < 5; i++){
+        for(j = 0; j < 3; j++){
+          displayMatrix[i][j] = digits[abs(temp / 10 % 10)][i][j];
+          displayMatrix[i+5][j] = digits[abs(temp % 10)][i][j];
+        }
+      }
+      break;
+  }
+
+  Serial.print("before draw");
+  for (i = 0; i < 5; i++){
+    for (j = 0; j < 8; j++){
+      Serial.print(displayMatrix[j][i]);
+      if (displayMatrix[i][j] == 1){
+        strip.setPixelColor(i * j, 20, 50, 120);
+      }
+      else{
+        strip.setPixelColor(i * j, 0, 0, 0);
       }
     }
   }
-
-  for (i = 0; i < 40; i++){
-    Serial.print(displayMatrixNext[i]);
-  }
-  
-  for (i = 0; i < 40; i++){
-    if (displayMatrixNext[i] == 1){
-            strip.setPixelColor(displayMatrixNext[i],0,120,20);
-    }
-  }
+  //strip.setPixelColor(digits[11][i],0,120,20);
   strip.show();
 }
